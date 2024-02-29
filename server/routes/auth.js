@@ -1,8 +1,8 @@
 import express from "express";
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from "../metadatServise/user.js";
 import mongoose from "mongoose";
+import { hashSync , compare } from 'bcrypt' 
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
     }else if(usernameExist){
       res.status(201).json({ errName: 'UsernameErr' });
     }else{// If there is no err hashed the password and create a new user in the db
-      const hashedPassword = bcrypt.hashSync(password, 10);
+      const hashedPassword = hashSync(password, 10);
       const user = new User({
         firstName,
         lastName,
@@ -56,9 +56,9 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(401).json({ errName: 'Incorrect'});
     }
-
+    
     //Check the password if it's correct
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await compare(password, user.password);
 
     //send an err if the password incorrect
     if (!passwordMatch) {

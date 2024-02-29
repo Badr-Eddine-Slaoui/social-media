@@ -1,7 +1,7 @@
 import express from "express";
 import nodemailer from 'nodemailer'
 import { User } from "../metadatServise/user.js";
-import bcrypt from 'bcrypt';
+import { hashSync } from 'bcrypt' 
 
 const router = express.Router();
 
@@ -70,7 +70,7 @@ try {
     //get the data
     const { email , password } = req.body;
 
-    const hashedPassword = bcrypt.hashSync(password,10)
+    const hashedPassword = hashSync(password,10)
 
     await User.findOneAndUpdate({ email },{
         password : hashedPassword
