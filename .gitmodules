@@ -1,0 +1,3 @@
+[submodule "social-media"]
+	path = social-media
+	url = git@github.com:Badr-Eddine-Slaoui/social-media.git
